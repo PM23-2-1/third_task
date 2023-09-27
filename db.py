@@ -23,14 +23,11 @@ def check_db() -> None:
     cursor = conn.cursor()
     print("База данных подключена")
 
-    try:
-        cursor.execute("SELECT * FROM %s" % DB_Names.db_names.get_name_table())
-    except pymysql.err.MySQLError:
-        with open('create_structure.sql', 'r') as sql_file:
-            sql_script = sql_file.read()
-            cursor.execute(sql_script % DB_Names.db_names.get_name_table())
-            conn.commit()
-            print("Скрипт SQL успешно выполнен")
+    with open('create_structure.sql', 'r') as sql_file:
+        sql_script = sql_file.read()
+        cursor.execute(sql_script % DB_Names.db_names.get_name_table())
+        conn.commit()
+        print("Скрипт SQL успешно выполнен")
     return
 
 def save_result(operation, result):
